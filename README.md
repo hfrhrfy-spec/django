@@ -1,66 +1,198 @@
-# Django
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Social Links</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
 
-[![1-click-deploy](https://raw.githubusercontent.com/DefangLabs/defang-assets/main/Logos/Buttons/SVG/deploy-with-defang.svg)](https://portal.defang.dev/redirect?url=https%3A%2F%2Fgithub.com%2Fnew%3Ftemplate_name%3Dsample-django-template%26template_owner%3DDefangSamples)
+    body, html {
+        height: 105%;
+    }
 
-This sample is a simple Django to-do app that uses SQLite as the database, which will be reset every time you deploy. **It is not production-ready**. For production use cases, you should check out the Django + Postgres sample.
+    body {
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* প্রোফাইল উপরের দিকে, ফুটিার নিচে */
+        align-items: center;
+        padding: 10px 0;
+        text-align: center;
+    }
 
-The app includes a management command which is run on startup to create a superuser with the username `admin` and password `admin`. This means you can login to the admin interface at `/admin/` and see the Django admin interface without any additional steps. The `example_app` is already registered and the `Todo` model is already set up to be managed in the admin interface.
+    /* প্রোফাইল বাটন */
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-The Dockerfile and compose files are already set up for you and are ready to be deployed. Serving is done using [Gunicorn](https://gunicorn.org/) and uses [WhiteNoise](https://whitenoise.readthedocs.io/en/latest/) for static files. The `CSRF_TRUSTED_ORIGINS` setting is configured to allow the app to run on a `defang.dev` subdomain.
+    .profile button {
+        width: 145px;
+        height: 145px;
+        border-radius: 50%;
+        border: 4px solid #00000020;
+        background-image: url('https://i.postimg.cc/PqptpZdZ/7149746126664631302-avatar-png.png');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+    }
 
-## Prerequisites
+    .profile button:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(0,0,0,0.25);
+    }
 
-1. Download [Defang CLI](https://github.com/DefangLabs/defang)
-2. (Optional) If you are using [Defang BYOC](https://docs.defang.io/docs/concepts/defang-byoc) authenticate with your cloud provider account
-3. (Optional for local development) [Docker CLI](https://docs.docker.com/engine/install/)
+    /* নামের ফ্রেম */
+    .name-frame {
+        display: inline-block; 
+        padding: 20px 40px; 
+        border-radius: 25px; 
+        background: #111; 
+        box-shadow: 0 0 20px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3) inset;
+        margin-top: 12px;
+    }
 
-## Development
+    .name-frame h1 {
+        font-size: 28px;
+        font-weight: 700;
+        background: linear-gradient(270deg, pink, orange, skyblue, red, green, yellow);
+        background-size: 1200% 1200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientAnimation 8s ease infinite, glow 2s ease-in-out infinite alternate;
+        text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        margin: 0;
+    }
 
-To run the application locally, you can use the following command:
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-```bash
-docker compose up --build
-```
+    @keyframes glow {
+        0% { text-shadow: 0 0 5px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.2); }
+        50% { text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 25px rgba(255,255,255,0.4); }
+        100% { text-shadow: 0 0 5px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.2); }
+    }
 
-## Configuration
+    /* বাটন গ্রিড */
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        width: 90%;
+        max-width: 400px;
+        justify-items: center;
+    }
 
-For this sample, you will not need to provide [configuration](https://docs.defang.io/docs/concepts/configuration). 
+    .buttons button {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: none;
+        background: #000;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
 
-If you wish to provide configuration, see below for an example of setting a configuration for a value named `API_KEY`.
+    .buttons button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
 
-```bash
-defang config set API_KEY
-```
+    /* Footer */
+    footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+        padding: 10px 20px;
+        background: #111;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3) inset;
+    }
 
-## Deployment
+    footer p {
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(270deg, pink, orange, skyblue, red, green, yellow);
+        background-size: 1200% 1200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientFooter 8s ease infinite, glowFooter 2s ease-in-out infinite alternate;
+        text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        margin: 0;
+    }
 
-> [!NOTE]
-> Download [Defang CLI](https://github.com/DefangLabs/defang)
+    @keyframes gradientFooter {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-### Defang Playground
+    @keyframes glowFooter {
+        0% { text-shadow: 0 0 5px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.2); }
+        50% { text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 25px rgba(255,255,255,0.4); }
+        100% { text-shadow: 0 0 5px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.2); }
+    }
 
-Deploy your application to the Defang Playground by opening up your terminal and typing:
-```bash
-defang compose up
-```
+</style>
+</head>
+<body>
 
-### BYOC (AWS)
+    <div class="profile">
+        <button id="profileBtn"></button>
+        <div class="name-frame">
+            <h1>𝐊ᴀ𝐰sᴀʀ</h1>
+        </div>
+    </div>
 
-If you want to deploy to your own cloud account, you can use Defang BYOC:
+    <div class="buttons">
+        <button>Facebook</button>
+        <button>Instagram</button>
+        <button>YouTube</button>
+        <button>LinkedIn</button>
+        <button>Twitter (X)</button>
+        <button>Telegram</button>
+        <button>WhatsApp</button>
+        <button>Snapchat</button>
+        <button>TikTok</button>
+        <button>Website</button>
+    </div>
 
-1. [Authenticate your AWS account](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html), and check that you have properly set your environment variables like `AWS_PROFILE`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`.
-2. Make sure to update the `CSRF_TRUSTED_ORIGINS` setting in the `settings.py` file to include an appropriate domain.
-3. Run in a terminal that has access to your AWS environment variables:
-    ```bash
-    defang --provider=aws compose up
-    ```
+    <footer>
+        <p>© 2025 𝐊ᴀ𝐰sᴀʀ | Living Life My Way 😎</p>
+    </footer>
 
----
+<script>
+    const profileBtn = document.getElementById("profileBtn");
+    profileBtn.addEventListener("click", () => {
+        alert("প্রোফাইল বাটনে ক্লিক হয়েছে!");
+    });
 
-Title: Django
+    const buttons = document.querySelectorAll(".buttons button");
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            alert(`${btn.innerText} বাটনে ক্লিক হয়েছে!`);
+        });
+    });
+</script>
 
-Short Description: A simple Django app that uses SQLite as the database.
-
-Tags: Django, SQLite, Python
-
-Languages: python
+</body>
+</html>
